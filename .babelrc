@@ -5,10 +5,21 @@
       "env",
       {
         "targets": {
-          "browsers": ["last 2 versions"]
+          "browsers": ["last 2 Chrome versions"]
         }
       }
     ]
   ],
-  "plugins": ["transform-class-properties"]
+  "plugins": [
+    "transform-class-properties",
+    "syntax-async-functions",
+    "transform-object-rest-spread",
+    [
+      "transform-runtime",
+      {
+        "polyfill": false,
+        "regenerator": true
+      }
+    ]
+  ]
 }
