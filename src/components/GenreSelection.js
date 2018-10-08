@@ -43,12 +43,12 @@ class GenreSelection extends PureComponent {
 }
 
 const GenreContainer = styled.div`
-   background: whitesmoke;
+   background: hsl(0, 0%, 10%);
    margin: 0 auto;
    text-align: center;
    padding: 1.5em;
    font-size: 1.8em;
-   color: hsl(0, 100%, 59%);
+   color: hsl(196, 82%, 60%);
       h2 {
          font-size: 2.5em;
          font-weight: bolder;
@@ -65,9 +65,9 @@ const GenreContainer = styled.div`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: hsl(0, 100%, 59%);
+  color: hsl(196, 82%, 60%);
   &:hover {
-    color: hsl(0, 100%, 72%);
+    color: whitesmoke;
     cursor: pointer;
   }
 `;

@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-// import { logo } from "../img/mdb-logo.png";
 const Nav = () => {
   return (
     <NavContainer>
@@ -9,30 +8,30 @@ const Nav = () => {
         <NavLink to="/">
           <img
             src={require("../img/mdb-logo.png")}
-            height="25%"
-            width="25%"
+            height="100%"
+            width="100%"
             alt="mdb logo"
           />
         </NavLink>
       </div>
       <NavUl>
         <li>
-          <NavLink to="/search" activeStyle={{ color: "red" }}>
+          <NavLink to="/search" activeStyle={{ color: "hsl(196, 82%, 60%)" }}>
             Search
           </NavLink>
         </li>
         <li>
-          <NavLink to="/trending" activeStyle={{ color: "red" }}>
+          <NavLink to="/trending" activeStyle={{ color: "hsl(196, 82%, 60%)" }}>
             Trending
           </NavLink>
         </li>
         <li>
-          <NavLink to="/genres" activeStyle={{ color: "red" }}>
+          <NavLink to="/genres" activeStyle={{ color: "hsl(196, 82%, 60%)" }}>
             Genres
           </NavLink>
         </li>
         <li>
-          <NavLink to="/people" activeStyle={{ color: "red" }}>
+          <NavLink to="/people" activeStyle={{ color: "hsl(196, 82%, 60%)" }}>
             People
           </NavLink>
         </li>
@@ -52,8 +51,9 @@ const NavContainer = styled.div`
   padding: 1.5em;
   #logo {
     position: relative;
-    display: inline-block;
     float: left;
+    width: 150px;
+    height: auto;
   }
 `;
 

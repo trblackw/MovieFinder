@@ -113,7 +113,7 @@ const Pages = styled.ul`
   }
   li:hover,
   li:active {
-    color: red;
+    color: hsl(196, 82%, 60%);
     cursor: pointer;
   }
 `;

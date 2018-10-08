@@ -92,7 +92,7 @@ const SearchContainer = styled.div`
   padding: 1.5em;
   text-align: center;
   height: 100vh;
-  background: hsl(0, 100%, 40%);
+  background: hsl(196, 82%, 60%);
 `;
 
 const SearchForm = styled.form`
