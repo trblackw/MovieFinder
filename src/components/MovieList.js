@@ -24,7 +24,6 @@ class MovieList extends Component {
     this.setState({
       activePage: e.target.value
     });
-    console.log(this.state.activePage);
   };
 
   async componentDidMount() {
