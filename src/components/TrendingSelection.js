@@ -27,7 +27,6 @@ class TrendingSelection extends Component {
         trendingMovies,
         trendingTVShows
       });
-      console.log(this.state.trending);
     } catch (error) {
       console.log(error);
     }
@@ -37,13 +36,13 @@ class TrendingSelection extends Component {
     const { trendingMovies, trendingTVShows } = this.state;
     return (
       <div>
-        <h3 style={{ color: "whitesmoke" }}>Movies</h3>
+        <h2 style={{ color: "whitesmoke", margin: '0 1em'}}>Movies</h2>
         <MovieGrid>
           {trendingMovies.map(movie => (
             <Movie key={movie.id} title={movie.title} movie={movie} />
           ))}
         </MovieGrid>
-        <h3 style={{ color: "whitesmoke" }}>TV Shows</h3>
+        <h2 style={{ color: "whitesmoke", margin: '0 1em' }}>TV Shows</h2>
         <MovieGrid>
           {trendingTVShows.map(show => (
             <Movie key={show.id} title={show.name} show={show} />
