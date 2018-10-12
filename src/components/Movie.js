@@ -20,18 +20,19 @@ const Movie = ({ movie, show }) =>
       </Overdrive>
     </Link>
   );
-// const Movie = ({ movie }) => (
-//   <Link to={`/${movie.id}`}>
-//     <Overdrive id={String(movie.id)}>
-//          <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
-//     </Overdrive>
-//   </Link>
-// );
+
 
 Movie.propTypes = {
   movie: PropTypes.shape({
-    title: PropTypes.string
-  }).isRequired
+    title: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    poster_path: PropTypes.string.isRequired
+  }),
+  show: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    poster_path: PropTypes.string.isRequired
+  })
 };
 
 export default Movie;
