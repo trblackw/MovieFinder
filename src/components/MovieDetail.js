@@ -50,7 +50,7 @@ class MovieDetail extends Component {
     const POSTER_PATH = "http://image.tmdb.org/t/p/w185";
     const BACKDROP_PATH = "http://image.tmdb.org/t/p/w1280";
 
-    const { movie, genre, review } = this.state;
+    const { movie, genre, review } = this.state;;
     return (
       <DetailWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
         <DetailInfo>
@@ -69,7 +69,9 @@ class MovieDetail extends Component {
                 <p>Budget: ${this.formatBudget(movie.budget)}</p>
               )}
 
-              <p>{this.formatRuntime(movie.runtime)}</p>
+              {movie.runtime !== null && (
+                <p>{this.formatRuntime(movie.runtime)}</p>
+              )}
             </div>
             <GenreList>
               {genre.map(item => (
