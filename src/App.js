@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React, { Fragment } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { render } from "react-dom";
-// import { ReactDOM } from 'react-dom';
 import MovieList from "./components/MovieList";
 import MovieDetail from "./components/MovieDetail";
 import Nav from "./components/Nav";
@@ -13,7 +12,7 @@ import PeopleList from "./components/PeopleList";
 
 const App = () => (
   <Router>
-    <div>
+    <Fragment>
       <Nav />
       <Switch>
         <Route exact path="/" component={MovieList} />
@@ -23,7 +22,7 @@ const App = () => (
         <Route path="/search" component={Search} />
         <Route path="/:id" component={MovieDetail} />
       </Switch>
-    </div>
+    </Fragment>
   </Router>
 );
 

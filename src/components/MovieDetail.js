@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Poster } from "./Movie";
 import Overdrive from "react-overdrive";
 import PropTypes from "prop-types";
+import { formatBudget, formatRuntime } from "../helpers";
 const API_KEY = process.env.API_KEY;
 
 class MovieDetail extends Component {
@@ -12,26 +13,14 @@ class MovieDetail extends Component {
     review: []
   };
 
-  //helper functions
-  formatBudget = num => String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-  formatRuntime = time => {
-    let hours = Math.floor(time / 60);
-    let minutes = time / 60;
-    return `${hours} hours ${((minutes - hours) * 60).toFixed(0)} minutes`;
-  };
-
   async componentDidMount() {
+    const { id } = this.props.match.params;
     try {
       const movieRes = await fetch(
-        `https://api.themoviedb.org/3/movie/${
-          this.props.match.params.id
-        }?api_key=${API_KEY}&language=en-US`
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
       );
       const reviewRes = await fetch(
-        `http://api.themoviedb.org/3/movie/${
-          this.props.match.params.id
-        }/reviews?api_key=${API_KEY}`
+        `http://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}`
       );
       const movie = await movieRes.json();
       const review = await reviewRes.json();
@@ -50,7 +39,7 @@ class MovieDetail extends Component {
     const POSTER_PATH = "http://image.tmdb.org/t/p/w185";
     const BACKDROP_PATH = "http://image.tmdb.org/t/p/w1280";
 
-    const { movie, genre, review } = this.state;;
+    const { movie, genre, review } = this.state;
     return (
       <DetailWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
         <DetailInfo>
@@ -65,13 +54,9 @@ class MovieDetail extends Component {
                 {movie.vote_average}
                 /10
               </p>
-              {movie.budget && (
-                <p>Budget: ${this.formatBudget(movie.budget)}</p>
-              )}
+              {movie.budget && <p>Budget: ${formatBudget(movie.budget)}</p>}
 
-              {movie.runtime !== null && (
-                <p>{this.formatRuntime(movie.runtime)}</p>
-              )}
+              {movie.runtime !== null && <p>{formatRuntime(movie.runtime)}</p>}
             </div>
             <GenreList>
               {genre.map(item => (
