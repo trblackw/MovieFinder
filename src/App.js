@@ -11,25 +11,21 @@ import TrendingSelection from "./components/TrendingSelection";
 import Search from "./components/Search";
 import PeopleList from "./components/PeopleList";
 
-class App extends Component {
-  render() {
-    return (
-      <Router>
-        <div>
-          <Nav />
-          <Switch>
-            <Route exact path="/" component={MovieList} />
-            <Route path="/genres" component={GenreSelection} />
-            <Route path="/people" component={PeopleList} />
-            <Route path="/trending" component={TrendingSelection} />
-            <Route path="/search" component={Search} />
-            <Route path="/:id" component={MovieDetail} />
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
-}
+const App = () => (
+  <Router>
+    <div>
+      <Nav />
+      <Switch>
+        <Route exact path="/" component={MovieList} />
+        <Route path="/genres" component={GenreSelection} />
+        <Route path="/people" component={PeopleList} />
+        <Route path="/trending" component={TrendingSelection} />
+        <Route path="/search" component={Search} />
+        <Route path="/:id" component={MovieDetail} />
+      </Switch>
+    </div>
+  </Router>
+);
 
 export default App;
 
