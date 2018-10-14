@@ -1,9 +1,8 @@
 import { combineReducers } from "redux";
-
-const placeholder = () => "temporary";
+import MoviesReducer from "./components/movies/movies_reducer";
 
 const rootReducer = combineReducers({
-  placeholder
+  MoviesReducer
 });
 
 export default rootReducer;

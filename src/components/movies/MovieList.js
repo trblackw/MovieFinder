@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Movie from "./Movie";
-// import { NavLink } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { fetchMovies } from "./movies_actions";
 
 const API_KEY = process.env.API_KEY;
 const pageOne = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`;
@@ -27,6 +29,8 @@ class MovieList extends Component {
   };
 
   async componentDidMount() {
+    const { fetchMovies } = this.props;
+    fetchMovies();
     try {
       const movieRes = await Promise.all([
         fetch(pageOne),
@@ -85,7 +89,18 @@ MovieList.propTypes = {
   activePage: PropTypes.array
 };
 
-export default MovieList;
+const mapStateToProps = state => ({
+  pages: state.pages
+});
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ fetchMovies }, dispatch);
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MovieList);
 
 export const MovieGrid = styled.div`
   display: flex;
