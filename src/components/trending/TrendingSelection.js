@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Movie from "./Movie";
-import { MovieGrid } from "./MovieList";
+import Movie from "../movies/Movie";
+import { MovieGrid } from "../movies/MovieList";
 
 class TrendingSelection extends Component {
   state = {

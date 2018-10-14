@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Poster } from "./Movie";
 import Overdrive from "react-overdrive";
 import PropTypes from "prop-types";
-import { formatBudget, formatRuntime } from "../helpers";
+import { formatBudget, formatRuntime } from "../../helpers";
 const API_KEY = process.env.API_KEY;
 
 class MovieDetail extends Component {
