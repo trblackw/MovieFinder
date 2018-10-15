@@ -6,75 +6,47 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { fetchMovies } from "./movies_actions";
 
-const API_KEY = process.env.API_KEY;
-const pageOne = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`;
-const pageTwo = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2`;
-const pageThree = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=3`;
-
 class MovieList extends Component {
-  state = {
-    pages: [],
-    activePage: []
-  };
-
   mapMovieData = page =>
     page.map(movie => (
       <Movie key={movie.id} movie={movie} img={movie.poster_path} />
     ));
 
-  selectPage = e => {
-    this.setState({
-      activePage: e.target.value
-    });
-  };
-
-  async componentDidMount() {
+  componentDidMount() {
     const { fetchMovies } = this.props;
     fetchMovies();
-    try {
-      const movieRes = await Promise.all([
-        fetch(pageOne),
-        fetch(pageTwo),
-        fetch(pageThree)
-      ]).then(responses => Promise.all(responses.map(res => res.json())));
-      const pages = movieRes.map(page => page.results);
-
-      this.setState({
-        pages,
-        activePage: pages[0]
-      });
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   render() {
-    const [page1, page2, page3] = this.state.pages;
+    const [page1, page2, page3] = this.props.pages;
     return (
       <div>
         <Pages>
           <li
             onClick={() => this.setState({ activePage: page1 })}
             className="page"
+            data-page={page1}
           >
             Page 1
           </li>
           <li
             onClick={() => this.setState({ activePage: page2 })}
             className="page"
+            data-page={page2}
           >
             Page 2
           </li>
           <li
             onClick={() => this.setState({ activePage: page3 })}
             className="page"
+            data-page={page3}
           >
             Page 3
           </li>
         </Pages>
         <MovieGrid>
-          {this.state.activePage.length ? (
-            this.mapMovieData(this.state.activePage)
+          {this.props.activePage.length ? (
+            this.mapMovieData(this.props.activePage)
           ) : (
             <div>LOADING...</div>
           )}
@@ -84,18 +56,18 @@ class MovieList extends Component {
   }
 }
 
-MovieList.propTypes = {
-  pages: PropTypes.arrayOf(PropTypes.array),
-  activePage: PropTypes.array
-};
+// MovieList.propTypes = {
+//   pages: PropTypes.arrayOf(PropTypes.array),
+//   activePage: PropTypes.array
+// };
 
 const mapStateToProps = state => ({
-  pages: state.pages
+  pages: state.MoviesReducer.pages,
+  activePage: state.MoviesReducer.activePage
 });
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ fetchMovies }, dispatch);
-};
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ fetchMovies }, dispatch);
 
 export default connect(
   mapStateToProps,

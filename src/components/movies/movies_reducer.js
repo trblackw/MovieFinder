@@ -1,16 +1,18 @@
-import { FETCH_MOVES } from "./movies_actions";
+import { FETCH_MOVIES, CHANGE_PAGE } from "./movies_actions";
 
 const initialState = {
-  pages: []
+  pages: [],
+  activePage: 0
 };
 
 export default function(state = initialState, action) {
   const { type, pages } = action;
   switch (type) {
-    case FETCH_MOVES:
+    case FETCH_MOVIES:
       return {
         ...state,
-        pages
+        pages,
+        activePage: pages[0]
       };
     default:
       return state;

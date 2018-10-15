@@ -13,8 +13,13 @@ export const fetchMovies = () => {
     ]).then(responses => Promise.all(responses.map(res => res.json())));
     const pages = movieRes.map(page => page.results);
     return dispatch({
-      type: "FETCH_MOVIES",
-      pages
+      type: FETCH_MOVIES,
+       pages,
+      activePage: pages[0],
     });
   };
 };
+
+// export const changePage = (page) => {
+
+// }
