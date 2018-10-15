@@ -1,4 +1,5 @@
 export const FETCH_MOVIES = "FETCH_MOVIES";
+export const CHANGE_PAGE = "CHANGE_PAGE";
 
 export const fetchMovies = () => {
   const API_KEY = process.env.API_KEY;
@@ -13,13 +14,18 @@ export const fetchMovies = () => {
     ]).then(responses => Promise.all(responses.map(res => res.json())));
     const pages = movieRes.map(page => page.results);
     return dispatch({
-      type: FETCH_MOVIES,
-       pages,
-      activePage: pages[0],
+      type: "FETCH_MOVIES",
+      pages,
+      activePage: pages[0]
     });
   };
 };
-
-// export const changePage = (page) => {
-
-// }
+//broken
+export const changePage = (pages, page) => {
+  return dispatch => {
+    return dispatch({
+      type: "CHANGE_PAGE",
+      activePage: pages[page]
+    });
+  };
+};

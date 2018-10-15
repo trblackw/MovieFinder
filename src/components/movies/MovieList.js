@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Movie from "./Movie";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { fetchMovies } from "./movies_actions";
+import { fetchMovies, changePage } from "./movies_actions";
 
 class MovieList extends Component {
   mapMovieData = page =>
@@ -19,47 +19,48 @@ class MovieList extends Component {
 
   render() {
     const [page1, page2, page3] = this.props.pages;
+     const { changePage, activePage, pages } = this.props;
     return (
-      <div>
+      <Fragment>
         <Pages>
-          <li
-            onClick={() => this.setState({ activePage: page1 })}
-            className="page"
-            data-page={page1}
-          >
-            Page 1
+          <li>
+            <button
+              onClick={() => changePage(pages, pages.indexOf(page1))}
+              className="page"
+            >
+              Page 1
+            </button>
           </li>
-          <li
-            onClick={() => this.setState({ activePage: page2 })}
-            className="page"
-            data-page={page2}
-          >
-            Page 2
+          <li>
+            <button
+              onClick={() => changePage(pages, pages.indexOf(page2))}
+              className="page"
+            >
+              Page 2
+            </button>
           </li>
-          <li
-            onClick={() => this.setState({ activePage: page3 })}
-            className="page"
-            data-page={page3}
-          >
-            Page 3
+          <li>
+            <button onClick={() => changePage(pages, pages.indexOf(page3))} className="page">
+              Page 3
+            </button>
           </li>
         </Pages>
         <MovieGrid>
-          {this.props.activePage.length ? (
-            this.mapMovieData(this.props.activePage)
+          {activePage.length ? (
+            this.mapMovieData(activePage)
           ) : (
             <div>LOADING...</div>
           )}
         </MovieGrid>
-      </div>
+      </Fragment>
     );
   }
 }
 
-// MovieList.propTypes = {
-//   pages: PropTypes.arrayOf(PropTypes.array),
-//   activePage: PropTypes.array
-// };
+MovieList.propTypes = {
+  pages: PropTypes.arrayOf(PropTypes.array),
+  activePage: PropTypes.array
+};
 
 const mapStateToProps = state => ({
   pages: state.MoviesReducer.pages,
@@ -67,7 +68,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ fetchMovies }, dispatch);
+  bindActionCreators({ fetchMovies, changePage }, dispatch);
 
 export default connect(
   mapStateToProps,
