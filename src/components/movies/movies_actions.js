@@ -1,4 +1,5 @@
 export const FETCH_MOVIES = "FETCH_MOVIES";
+export const FETCH_MOVIE_DETAILS = "FETCH_MOVIE_DETAILS";
 export const CHANGE_PAGE = "CHANGE_PAGE";
 
 export const fetchMovies = () => {
@@ -17,6 +18,15 @@ export const fetchMovies = () => {
       type: "FETCH_MOVIES",
       pages,
       activePage: pages[0]
+    });
+  };
+};
+
+export const fetchMovieDetails = () => {
+  return async dispatch => {
+    return dispatch({
+      type: "FETCH_MOVIE_DETAILS",
+      string: "connected!"
     });
   };
 };
