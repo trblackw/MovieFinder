@@ -19,7 +19,7 @@ class MovieList extends Component {
 
   render() {
     const [page1, page2, page3] = this.props.pages;
-     const { changePage, activePage, pages } = this.props;
+    const { changePage, activePage, pages } = this.props;
     return (
       <Fragment>
         <Pages>
@@ -40,7 +40,10 @@ class MovieList extends Component {
             </button>
           </li>
           <li>
-            <button onClick={() => changePage(pages, pages.indexOf(page3))} className="page">
+            <button
+              onClick={() => changePage(pages, pages.indexOf(page3))}
+              className="page"
+            >
               Page 3
             </button>
           </li>
