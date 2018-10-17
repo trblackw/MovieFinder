@@ -7,11 +7,13 @@ import {
 const initialState = {
   pages: [],
   activePage: 0,
-  string: ""
+  movie: {},
+  reviews: [],
+  genres: []
 };
 
 export default function(state = initialState, action) {
-  const { type, pages, page, string } = action;
+  const { type, pages, page, movie, reviews, genres } = action;
   switch (type) {
     case FETCH_MOVIES:
       return {
@@ -22,7 +24,9 @@ export default function(state = initialState, action) {
     case FETCH_MOVIE_DETAILS:
       return {
         ...state,
-        string
+        movie,
+        reviews,
+        genres
       };
     case CHANGE_PAGE:
       return {
