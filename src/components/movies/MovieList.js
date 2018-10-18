@@ -7,10 +7,16 @@ import { connect } from "react-redux";
 import { fetchMovies, changePage } from "./movies_actions";
 
 class MovieList extends Component {
+  state = {
+    activePage: 0
+  };
   mapMovieData = page =>
     page.map(movie => (
       <Movie key={movie.id} movie={movie} img={movie.poster_path} />
     ));
+  changePage = page => {
+    this.setState({ activePage: page });
+  };
 
   componentDidMount() {
     const { fetchMovies } = this.props;
@@ -19,13 +25,14 @@ class MovieList extends Component {
 
   render() {
     const [page1, page2, page3] = this.props.pages;
-    const { changePage, activePage, pages } = this.props;
+    const { pages } = this.props;
+    const { activePage } = this.state;
     return (
       <Fragment>
         <Pages>
           <li>
             <button
-              onClick={() => changePage(pages, pages.indexOf(page1))}
+              onClick={() => this.changePage(pages.indexOf(page1))}
               className="page"
             >
               Page 1
@@ -33,7 +40,7 @@ class MovieList extends Component {
           </li>
           <li>
             <button
-              onClick={() => changePage(pages, pages.indexOf(page2))}
+              onClick={() => this.changePage(pages.indexOf(page2))}
               className="page"
             >
               Page 2
@@ -41,7 +48,7 @@ class MovieList extends Component {
           </li>
           <li>
             <button
-              onClick={() => changePage(pages, pages.indexOf(page3))}
+              onClick={() => this.changePage(pages.indexOf(page3))}
               className="page"
             >
               Page 3
@@ -49,8 +56,8 @@ class MovieList extends Component {
           </li>
         </Pages>
         <MovieGrid>
-          {activePage.length ? (
-            this.mapMovieData(activePage)
+          {pages[activePage] ? (
+            this.mapMovieData(pages[activePage])
           ) : (
             <div>LOADING...</div>
           )}
@@ -62,7 +69,7 @@ class MovieList extends Component {
 
 MovieList.propTypes = {
   pages: PropTypes.arrayOf(PropTypes.array),
-  activePage: PropTypes.array
+  activePage: PropTypes.number
 };
 
 const mapStateToProps = state => ({
