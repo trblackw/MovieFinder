@@ -73,7 +73,7 @@ MovieList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  pages: state.MoviesReducer.pages,
+  pages: state.MoviesReducer.pages
 });
 
 const mapDispatchToProps = dispatch =>
@@ -98,7 +98,21 @@ const Pages = styled.ul`
   flex-direction: row;
   justify-content: flex-start;
   width: auto;
-  margin: 0 0.5em;
+  margin: 0 1.6em;
+
+  button.page {
+    border-radius: 4px;
+    border: 1px solid hsl(196, 82%, 60%);
+    color: hsl(196, 82%, 60%);
+    background: hsl(0, 0%, 13%);
+    padding: 0.3em;
+    &:hover {
+      border: 1px solid hsl(0, 0%, 13%);
+      color: hsl(0, 0%, 13%);
+      background: hsl(196, 82%, 60%);
+      cursor: pointer;
+    }
+  }
 
   li {
     font-size: 0.8em;
