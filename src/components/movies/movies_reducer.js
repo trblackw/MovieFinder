@@ -1,39 +1,31 @@
-import {
-  FETCH_MOVIES,
-  FETCH_MOVIE_DETAILS,
-  CHANGE_PAGE
-} from "./movies_actions";
+import { FETCH_MOVIES, FETCH_MOVIE_DETAILS } from "./movies_actions";
 
 const initialState = {
   pages: [],
-  activePage: 0,
-  movie: {},
-  reviews: [],
-  genres: []
+  details: []
 };
-
 export default function(state = initialState, action) {
-  const { type, pages, page, movie, reviews, genres } = action;
+  const { type, pages, details } = action;
   switch (type) {
     case FETCH_MOVIES:
       return {
         ...state,
-        pages,
-        activePage: pages[0]
+        pages
       };
-    case FETCH_MOVIE_DETAILS:
-      return {
-        ...state,
-        movie,
-        reviews,
-        genres
-      };
-    case CHANGE_PAGE:
-      return {
-        ...state,
-        activePage: page
-      };
+   //  case FETCH_MOVIE_DETAILS:
+   //    return {
+   //      ...state,
+   //      details
+   //    };
     default:
       return state;
   }
-}
+  //   if (type === FETCH_MOVIES) {
+  //     return { ...state, pages };
+  //   }
+  //   if (type === FETCH_MOVIE_DETAILS) {
+  //     return { ...state, details };
+  //   }
+  //   return state;
+};
+

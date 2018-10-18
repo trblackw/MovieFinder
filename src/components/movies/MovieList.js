@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Movie from "./Movie";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { fetchMovies, changePage } from "./movies_actions";
+import { fetchMovies } from "./movies_actions";
 
 class MovieList extends Component {
   state = {
@@ -74,11 +74,10 @@ MovieList.propTypes = {
 
 const mapStateToProps = state => ({
   pages: state.MoviesReducer.pages,
-  activePage: state.MoviesReducer.activePage
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ fetchMovies, changePage }, dispatch);
+  bindActionCreators({ fetchMovies }, dispatch);
 
 export default connect(
   mapStateToProps,

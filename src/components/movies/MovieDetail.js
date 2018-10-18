@@ -4,48 +4,51 @@ import { Poster } from "./Movie";
 import Overdrive from "react-overdrive";
 import PropTypes from "prop-types";
 import { formatBudget, formatRuntime } from "../../helpers";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { fetchMovieDetails } from "./movies_actions";
+// import { bindActionCreators } from "redux";
+// import { connect } from "react-redux";
+// import { fetchMovieDetails } from "./movies_actions";
 
-// const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.API_KEY;
 
 class MovieDetail extends Component {
-  //   state = {
-  //     movie: {},
-  //     genre: [],
-  //     review: []
-  //   };
+  state = {
+    movie: {},
+    genres: [],
+    reviews: []
+  };
 
   async componentDidMount() {
-    const { fetchMovieDetails } = this.props;
-    const { id } = this.props.match.params;
-    fetchMovieDetails(id);
-    //  try {
-    //    const movieRes = await fetch(
-    //      `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
-    //    );
-    //    const reviewRes = await fetch(
-    //      `http://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}`
-    //    );
-    //    const movie = await movieRes.json();
-    //    const review = await reviewRes.json();
-
-    //    this.setState({
-    //      movie,
-    //      genre: movie.genres,
-    //      review: review.results
-    //    });
-    //  } catch (error) {
-    //    console.log(error);
-    //  }
+    const id = this.props.match.params.id;
+    console.log(id);
+    try {
+      const movieRes = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
+      );
+      const reviewRes = await fetch(
+        `http://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}`
+      );
+      const movie = await movieRes.json();
+      const reviews = await reviewRes.json();
+      this.setState({
+        movie,
+        genres: movie.genres,
+        reviews
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    //  console.log("mounting!");
+    //  const { fetchMovieDetails } = this.props;
+    //  const { id } = this.props.match.params;
+    //  fetchMovieDetails(id);
   }
 
   render() {
     const POSTER_PATH = "http://image.tmdb.org/t/p/w185";
     const BACKDROP_PATH = "http://image.tmdb.org/t/p/w1280";
 
-    const { movie, genres, reviews } = this.props;
+    const { movie, genres, reviews } = this.state;
+    console.log(movie);
     return (
       <DetailWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
         <DetailInfo>
@@ -89,11 +92,24 @@ class MovieDetail extends Component {
     );
   }
 }
-//isRequired affected by initial emptiness of props
 MovieDetail.propTypes = {
   movie: PropTypes.object,
   genre: PropTypes.arrayOf(PropTypes.object)
 };
+
+export default MovieDetail;
+
+// const mapStateToProps = state => ({
+//   details: state.MoviesReducer.details
+// });
+
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators({ fetchMovieDetails }, dispatch);
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(MovieDetail);
 
 const DetailWrapper = styled.div`
   position: relative;
@@ -180,17 +196,3 @@ const ReviewSection = styled.div`
     font-family: "Open sans", sans-serif;
   }
 `;
-
-const mapStateToProps = state => ({
-  movie: state.MoviesReducer.movie,
-  reviews: state.MoviesReducer.reviews,
-  genres: state.MoviesReducer.genres
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ fetchMovieDetails }, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MovieDetail);
