@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const Suggestions = ({ search, movies }) => {
-  const findMatches = (query, data) => {
+class Suggestions extends Component {
+  findMatches = (query, data) => {
     return data
       .filter(item => {
         const regex = new RegExp(query, "gi");
@@ -20,8 +20,16 @@ const Suggestions = ({ search, movies }) => {
         </Link>
       ));
   };
-  return <StyledUl>{findMatches(search, movies)}</StyledUl>;
-};
+
+  render() {
+    const { search, movies } = this.props;
+    return (
+      <StyledUl>
+        {search.length >= 2 && this.findMatches(search, movies)}
+      </StyledUl>
+    );
+  }
+}
 
 Suggestions.propTypes = {
   search: PropTypes.string.isRequired,
@@ -48,6 +56,6 @@ const StyledUl = styled.ul`
   }
 
   li:hover {
-    color: red;
+    color: hsl(196, 82%, 60%);
   }
 `;
