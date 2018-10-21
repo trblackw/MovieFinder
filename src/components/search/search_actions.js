@@ -37,31 +37,3 @@ export const searchMovies = () => {
   };
 };
 
-export const clearMovies = () => {
-  return dispatch => {
-    return dispatch({
-      type: "CLEAR_SEARCH",
-      movies: []
-    });
-  };
-};
-
-export const handleSearch = e => {
-  return dispatch => {
-    return dispatch(
-      {
-        type: "HANDLE_SEARCH",
-        query: e.target.value
-      },
-      () => {
-        if (this.props.query && this.props.query.length > 1) {
-          if (this.props.query.length % 2 === 0) {
-            this.getMovies();
-          }
-        } else if (!this.props.query) {
-          this.props.clearMovies();
-        }
-      }
-    );
-  };
-};

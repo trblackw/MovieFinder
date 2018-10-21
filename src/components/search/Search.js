@@ -4,72 +4,27 @@ import Suggestions from "./Suggestions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { searchMovies, clearMovies, handleSearch } from "./search_actions";
-// const API_KEY = process.env.API_KEY;
-
-// const pageOne = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`;
-// const pageTwo = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2`;
-// const pageThree = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=3`;
-// const pageFour = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=4`;
+import { searchMovies } from "./search_actions";
 
 class Search extends Component {
-  //   state = {
-  //     query: "",
-  //     movies: []
-  //   };
+  state = {
+    query: ""
+  };
 
-  //   getMovies = async () => {
-  //     try {
-  //       const movieRes = await Promise.all([
-  //         fetch(pageOne),
-  //         fetch(pageTwo),
-  //         fetch(pageThree),
-  //         fetch(pageFour)
-  //       ]).then(responses => Promise.all(responses.map(res => res.json())));
-  //       const moviesArr = movieRes.map(page => page.results);
-  //       const movies = [
-  //         ...moviesArr[0],
-  //         ...moviesArr[1],
-  //         ...moviesArr[2],
-  //         ...moviesArr[3]
-  //       ];
-  //       this.setState({
-  //         movies
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   clearMovies = () => {
-  //     this.setState({
-  //       movies: []
-  //     });
-  //   };
-
-  //   handleSearch = () => {
-  //     this.setState(
-  //       {
-  //         query: this.search.value
-  //       },
-  //       () => {
-  //         if (this.state.query && this.state.query.length > 1) {
-  //           if (this.state.query.length % 2 === 0) {
-  //             this.getMovies();
-  //           }
-  //         } else if (!this.state.query) {
-  //           this.clearMovies();
-  //         }
-  //       }
-  //     );
-  //   };
-
-  componentDidMount() {
-    const { searchMovies, handleSearch, clearMovies } = this.props;
-  }
+  handleSearch = () => {
+    const { query } = this.state;
+    const { searchMovies } = this.props;
+    this.setState({ query: this.search.value }, () => {
+      if (query && query.length > 1) {
+        if (query.length % 2 === 0) {
+          searchMovies();
+        }
+      }
+    });
+  };
   render() {
-    const { movies, query, handleSearch } = this.props;
-    console.log(movies);
+    const { movies } = this.props;
+    const { query } = this.state;
     return (
       <SearchContainer>
         <SearchForm onSubmit={e => e.preventDefault()}>
@@ -77,7 +32,7 @@ class Search extends Component {
             ref={input => (this.search = input)}
             type="text"
             placeholder="Search for a movie"
-            onChange={handleSearch}
+            onChange={this.handleSearch}
           />
           <Suggestions movies={movies} search={query} />
         </SearchForm>
@@ -92,12 +47,11 @@ Search.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  movies: state.SearchReducer.movies,
-  query: state.SearchReducer.query
+  movies: state.SearchReducer.movies
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ searchMovies, clearMovies, handleSearch }, dispatch);
+  bindActionCreators({ searchMovies }, dispatch);
 
 export default connect(
   mapStateToProps,
