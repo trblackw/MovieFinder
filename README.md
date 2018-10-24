@@ -1,5 +1,5 @@
 # MovieFinder
-React application built for viewing movie data via The Movie Database (TMDb) API. It incorporates redux for state management, and is built using Parcel. 
+React/redux application built for viewing movie data via The Movie Database (TMDb) API. It incorporates redux for state management, and is built using Parcel. 
 
 To view:
 1) Git clone https://github.com/trblackw/MovieFinder.git
