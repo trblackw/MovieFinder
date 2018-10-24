@@ -1,48 +1,33 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import styled from "styled-components";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { fetchGenres } from "./genre_actions";
+import MoviesByGenre from "./MoviesByGenre";
 
 class GenreSelection extends Component {
-  //   state = {
-  //      genres: [],
-  //      search: []
-  //   };
-
-  //   async componentDidMount() {
-  //     try {
-  //       const genreRes = await fetch(
-  //         `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`
-  //       );
-  //        const genresList = await genreRes.json();
-
-  //       this.setState({
-  //         genres: genresList.genres
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
   componentDidMount() {
     const { fetchGenres } = this.props;
     fetchGenres();
   }
 
   render() {
-    const { genres } = this.props;
-
+    const { genres, match } = this.props;
+    console.log("match", match);
     return (
       <GenreContainer>
         <h2>Genre List</h2>
         <ul>
           {genres.map(genre => (
             <li key={genre.id}>
-              <StyledLink to="#">{genre.name}</StyledLink>
+              <StyledLink to={`${match.path}/${genre.id}`}>
+                {genre.name}
+              </StyledLink>
             </li>
           ))}
         </ul>
+        <Route exact path={`${match.url}/:genreId`} component={MoviesByGenre} />
       </GenreContainer>
     );
   }
