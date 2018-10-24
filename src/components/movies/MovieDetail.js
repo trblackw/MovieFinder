@@ -4,9 +4,6 @@ import { Poster } from "./Movie";
 import Overdrive from "react-overdrive";
 import PropTypes from "prop-types";
 import { formatBudget, formatRuntime } from "../../helpers";
-// import { bindActionCreators } from "redux";
-// import { connect } from "react-redux";
-// import { fetchMovieDetails } from "./movies_actions";
 
 const API_KEY = process.env.API_KEY;
 
@@ -19,7 +16,6 @@ class MovieDetail extends Component {
 
   async componentDidMount() {
     const id = this.props.match.params.id;
-    console.log(id);
     try {
       const movieRes = await fetch(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
