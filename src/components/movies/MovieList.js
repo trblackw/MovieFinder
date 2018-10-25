@@ -24,36 +24,23 @@ class MovieList extends Component {
   }
 
   render() {
-    const [page1, page2, page3] = this.props.pages;
+    //  const [page1, page2, page3] = this.props.pages;
+
     const { pages } = this.props;
     const { activePage } = this.state;
     return (
       <Fragment>
         <Pages>
-          <li>
-            <button
-              onClick={() => this.changePage(pages.indexOf(page1))}
-              className="page"
-            >
-              Page 1
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => this.changePage(pages.indexOf(page2))}
-              className="page"
-            >
-              Page 2
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => this.changePage(pages.indexOf(page3))}
-              className="page"
-            >
-              Page 3
-            </button>
-          </li>
+          {pages.map((page, i) => (
+            <li key={page[i].id}>
+              <button
+                onClick={() => this.changePage(i)}
+                className={i === activePage ? "active" : "page"}
+              >
+                Page {i + 1}
+              </button>
+            </li>
+          ))}
         </Pages>
         <MovieGrid>
           {pages[activePage] ? (
@@ -100,6 +87,13 @@ const Pages = styled.ul`
   width: auto;
   margin: 0 1.6em;
 
+  button.active {
+    border: 1px solid hsl(0, 0%, 13%);
+    color: hsl(0, 0%, 13%);
+    background: hsl(196, 82%, 60%);
+    border-radius: 4px;
+    padding: 0.3em;
+  }
   button.page {
     border-radius: 4px;
     border: 1px solid hsl(196, 82%, 60%);
