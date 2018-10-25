@@ -28,10 +28,9 @@ class PeopleList extends Component {
 }
 
 const PeopleGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  grid-gap: 1em;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
   padding: 2em;
   margin: 0 auto;
   overflow-x: scroll;
