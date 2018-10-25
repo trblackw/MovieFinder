@@ -4,28 +4,20 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 class Suggestions extends Component {
-  findMatches = (query, data) => {
-    return data
-      .filter(item => {
-        const regex = new RegExp(query, "gi");
-        return item.title.match(regex);
-      })
-      .map(item => (
-        <Link
-          style={{ textDecoration: "none", color: "black" }}
-          to={`/${item.id}`}
-          key={item.id}
-        >
-          <li>{item.title}</li>
-        </Link>
-      ));
-  };
-
   render() {
     const { search, movies } = this.props;
     return (
       <StyledUl>
-        {search.length >= 2 && this.findMatches(search, movies)}
+        {search.length >= 2 &&
+          movies.map(movie => (
+            <Link
+              style={{ textDecoration: "none", color: "black" }}
+              to={`/${movie.id}`}
+              key={movie.id}
+            >
+              <li>{movie.title}</li>
+            </Link>
+          ))}
       </StyledUl>
     );
   }
