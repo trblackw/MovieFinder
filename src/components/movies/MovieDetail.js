@@ -33,10 +33,6 @@ class MovieDetail extends Component {
     } catch (error) {
       console.error(error);
     }
-    //  console.log("mounting!");
-    //  const { fetchMovieDetails } = this.props;
-    //  const { id } = this.props.match.params;
-    //  fetchMovieDetails(id);
   }
 
   render() {
@@ -65,7 +61,7 @@ class MovieDetail extends Component {
             </div>
             <GenreList>
               {genres.map(item => (
-                <li key={item.id}>{item.name}</li>
+                <li key={item.id * Math.random()}>{item.name}</li>
               ))}
             </GenreList>
             <p>{movie.overview}</p>
