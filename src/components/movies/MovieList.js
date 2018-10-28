@@ -18,6 +18,12 @@ class MovieList extends Component {
     this.setState({ activePage: page });
   };
 
+  sortAlphabetical = () => {
+    const { pages } = this.props;
+    console.log(pages.map(page => page.sort((a, b) => a.title - b.title)));
+    //  console.log(pages.sort((a, b) => a.title - b.title));
+  };
+
   componentDidMount() {
     const { fetchMovies } = this.props;
     fetchMovies();
@@ -42,6 +48,9 @@ class MovieList extends Component {
             </li>
           ))}
         </Pages>
+        <Sorters>
+          <button onClick={this.sortAlphabetical}>click</button>
+        </Sorters>
         <MovieGrid>
           {pages[activePage] ? (
             this.mapMovieData(pages[activePage])
@@ -119,4 +128,12 @@ const Pages = styled.ul`
     color: hsl(196, 82%, 60%);
     cursor: pointer;
   }
+`;
+
+const Sorters = styled.div`
+  border: 1px solid red;
+  margin: 1.5em auto;
+  padding: 1em;
+  min-height: 50px;
+  min-width: 100px;
 `;
