@@ -38,9 +38,10 @@ class MovieDetail extends Component {
   render() {
     const POSTER_PATH = "http://image.tmdb.org/t/p/w185";
     const BACKDROP_PATH = "http://image.tmdb.org/t/p/w1280";
+    const LOGO_PATH = "https://image.tmdb.org/t/p/w92/";
 
     const { movie, genres, reviews } = this.state;
-    console.log(movie);
+    console.log(movie.production_companies);
     return (
       <DetailWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
         <DetailInfo>
@@ -49,6 +50,15 @@ class MovieDetail extends Component {
           </Overdrive>
           <div id="info">
             <h1>{movie.title}</h1>
+            {Array.isArray(movie.production_companies) && (
+              <Logos>
+                {movie.production_companies.map(company => (
+                  <div key={company.id}>
+                    <img src={`${LOGO_PATH}${company.logo_path}`} alt="" />
+                  </div>
+                ))}
+              </Logos>
+            )}
             <div id="infoAttr">
               <p className="first">{movie.release_date}</p>
               <p>
@@ -59,6 +69,7 @@ class MovieDetail extends Component {
 
               {movie.runtime !== null && <p>{formatRuntime(movie.runtime)}</p>}
             </div>
+
             <GenreList>
               {genres.map(item => (
                 <li key={item.id * Math.random()}>{item.name}</li>
@@ -186,5 +197,17 @@ const ReviewSection = styled.div`
   #review {
     text-indent: 0.7em;
     font-family: "Open sans", sans-serif;
+  }
+`;
+
+const Logos = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  float: right;
+  margin: 1.5em;
+
+  div {
+    margin-left: 0.6em;
   }
 `;
