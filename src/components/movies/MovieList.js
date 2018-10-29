@@ -48,9 +48,9 @@ class MovieList extends Component {
             </li>
           ))}
         </Pages>
-        <Sorters>
+        {/* <Sorters>
           <button onClick={this.sortAlphabetical}>click</button>
-        </Sorters>
+        </Sorters> */}
         <MovieGrid>
           {pages[activePage] ? (
             this.mapMovieData(pages[activePage])
