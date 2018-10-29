@@ -41,24 +41,16 @@ class MovieDetail extends Component {
     const LOGO_PATH = "https://image.tmdb.org/t/p/w92/";
 
     const { movie, genres, reviews } = this.state;
-    console.log(movie.production_companies);
     return (
       <DetailWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
         <DetailInfo>
           <Overdrive id={String(movie.id)}>
             <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt="poster" />
           </Overdrive>
+
           <div id="info">
             <h1>{movie.title}</h1>
-            {Array.isArray(movie.production_companies) && (
-              <Logos>
-                {movie.production_companies.map(company => (
-                  <div key={company.id}>
-                    <img src={`${LOGO_PATH}${company.logo_path}`} alt="" />
-                  </div>
-                ))}
-              </Logos>
-            )}
+
             <div id="infoAttr">
               <p className="first">{movie.release_date}</p>
               <p>
@@ -78,6 +70,15 @@ class MovieDetail extends Component {
             <p>{movie.overview}</p>
           </div>
         </DetailInfo>
+        {Array.isArray(movie.production_companies) && (
+          <Logos>
+            {movie.production_companies.map(company => (
+              <div key={company.id}>
+                <img src={`${LOGO_PATH}${company.logo_path}`} alt="" />
+              </div>
+            ))}
+          </Logos>
+        )}
         {reviews.length && (
           <ReviewSection>
             <h1>Reviews</h1>
@@ -102,18 +103,6 @@ MovieDetail.propTypes = {
 
 export default MovieDetail;
 
-// const mapStateToProps = state => ({
-//   details: state.MoviesReducer.details
-// });
-
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators({ fetchMovieDetails }, dispatch);
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(MovieDetail);
-
 const DetailWrapper = styled.div`
   position: relative;
   padding-top: 60vh;
@@ -121,6 +110,7 @@ const DetailWrapper = styled.div`
   background-position: relative;
   object-fit: cover;
   justify-content: center;
+  border: 1px solid green;
 `;
 
 const DetailInfo = styled.div`
@@ -131,17 +121,21 @@ const DetailInfo = styled.div`
   display: flex;
   margin-top: 1.9em;
   font-size: 1.2em;
+  border: 1px solid purple;
   div#info {
     margin-left: 20px;
+    border: 1px solid red;
   }
   div#infoAttr {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-content: center;
     margin: 1em auto 1em 0;
     color: hsl(0, 100%, 59%);
+    border: 1px solid black;
+    font-size: 0.7em;
   }
   div#infoAttr > p:not(.first) {
     display: inline-block;
@@ -203,9 +197,9 @@ const ReviewSection = styled.div`
 const Logos = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  float: right;
+  justify-content: center;
   margin: 1.5em;
+  position: absolute;
 
   div {
     margin-left: 0.6em;
