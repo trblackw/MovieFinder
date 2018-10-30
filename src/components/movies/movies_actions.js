@@ -1,6 +1,8 @@
 export const FETCH_MOVIES = "FETCH_MOVIES";
-export const FETCH_MOVIE_DETAILS = "FETCH_MOVIE_DETAILS";
+export const ALPHABETIZE_MOVIES = "ALPHABETIZE_MOVIES";
 const API_KEY = process.env.API_KEY;
+
+import { chunk } from "../../helpers";
 
 export const fetchMovies = () => {
   return async dispatch => {
@@ -16,6 +18,20 @@ export const fetchMovies = () => {
     return dispatch({
       type: FETCH_MOVIES,
       pages
+    });
+  };
+};
+
+export const sortAlphabetical = pages => {
+  return dispatch => {
+    const flattenedPages = pages
+      .flat()
+      .sort((a, b) => (a.title > b.title ? 1 : b.title > a.title ? -1 : 0));
+    const alphabetizedMovies = chunk(flattenedPages, 20);
+
+    return dispatch({
+      type: ALPHABETIZE_MOVIES,
+      alphabetizedMovies
     });
   };
 };
