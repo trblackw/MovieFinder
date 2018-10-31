@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Poster } from "./Movie";
 import Overdrive from "react-overdrive";
@@ -38,14 +38,21 @@ class MovieDetail extends Component {
   render() {
     const POSTER_PATH = "http://image.tmdb.org/t/p/w185";
     const BACKDROP_PATH = "http://image.tmdb.org/t/p/w1280";
-    const LOGO_PATH = "https://image.tmdb.org/t/p/w92/";
+    const LOGO_PATH = "https://image.tmdb.org/t/p/w154/";
 
     const { movie, genres, reviews } = this.state;
     return (
-      <DetailWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
+      <Fragment>
+        <BackdropContainer
+          backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}
+        />
         <DetailInfo>
           <Overdrive id={String(movie.id)}>
-            <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt="poster" />
+            <Poster
+              src={`${POSTER_PATH}${movie.poster_path}`}
+              alt="poster"
+              style={{ boxShadow: "0 5px 30px black" }}
+            />
           </Overdrive>
 
           <div id="info">
@@ -67,8 +74,10 @@ class MovieDetail extends Component {
                 <li key={item.id * Math.random()}>{item.name}</li>
               ))}
             </GenreList>
-            <p>{movie.overview}</p>
           </div>
+          <Description>
+            <p>{movie.overview}</p>
+          </Description>
         </DetailInfo>
         {Array.isArray(movie.production_companies) && (
           <Logos>
@@ -92,7 +101,7 @@ class MovieDetail extends Component {
             ))}
           </ReviewSection>
         )}
-      </DetailWrapper>
+      </Fragment>
     );
   }
 }
@@ -103,38 +112,35 @@ MovieDetail.propTypes = {
 
 export default MovieDetail;
 
-const DetailWrapper = styled.div`
+const BackdropContainer = styled.div`
   position: relative;
   padding-top: 60vh;
   background: url(${props => props.backdrop}) no-repeat;
   background-position: relative;
   object-fit: cover;
   justify-content: center;
-  border: 1px solid green;
+  opacity: 0.7;
 `;
 
 const DetailInfo = styled.div`
-  background: rgb(245, 245, 245, 0.7);
+  background: hsl(0, 0%, 93%);
   text-align: left;
-  line-height: 1.9em;
   padding: 2rem 10%;
   display: flex;
-  margin-top: 1.9em;
   font-size: 1.2em;
-  border: 1px solid purple;
   div#info {
     margin-left: 20px;
-    border: 1px solid red;
+    width: 100%;
+    height: 180px;
   }
   div#infoAttr {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-content: center;
-    margin: 1em auto 1em 0;
+    margin: 0.5em auto 1em 0;
     color: hsl(0, 100%, 59%);
-    border: 1px solid black;
     font-size: 0.7em;
   }
   div#infoAttr > p:not(.first) {
@@ -194,12 +200,27 @@ const ReviewSection = styled.div`
   }
 `;
 
+const Description = styled.div`
+  margin: 1em;
+  padding: 1.2em;
+  text-align: left;
+  width: 100%;
+  position: absolute;
+  left: -2%;
+  top: 30%;
+  color: whitesmoke;
+  text-shadow: 1px 1px black;
+`;
+
 const Logos = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin: 1.5em;
+  justify-content: space-around;
+  margin: 3em auto;
   position: absolute;
+  width: auto;
+  bottom: -39%;
+  left: 28%;
 
   div {
     margin-left: 0.6em;
