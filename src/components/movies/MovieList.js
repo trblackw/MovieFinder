@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Movie from "./Movie";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { fetchMovies } from "./movies_actions";
+import { fetchMovies, sortAlphabetical } from "./movies_actions";
 
 class MovieList extends Component {
   state = {
@@ -18,21 +18,13 @@ class MovieList extends Component {
     this.setState({ activePage: page });
   };
 
-  sortAlphabetical = () => {
-    const { pages } = this.props;
-    console.log(pages.map(page => page.sort((a, b) => a.title - b.title)));
-    //  console.log(pages.sort((a, b) => a.title - b.title));
-  };
-
   componentDidMount() {
     const { fetchMovies } = this.props;
     fetchMovies();
   }
 
   render() {
-    //  const [page1, page2, page3] = this.props.pages;
-
-    const { pages } = this.props;
+    const { pages, sortAlphabetical } = this.props;
     const { activePage } = this.state;
     return (
       <Fragment>
@@ -48,9 +40,9 @@ class MovieList extends Component {
             </li>
           ))}
         </Pages>
-        {/* <Sorters>
-          <button onClick={this.sortAlphabetical}>click</button>
-        </Sorters> */}
+        <Sorters>
+          <button onClick={() => sortAlphabetical(pages)}>click</button>
+        </Sorters>
         <MovieGrid>
           {pages[activePage] ? (
             this.mapMovieData(pages[activePage])
@@ -73,7 +65,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ fetchMovies }, dispatch);
+  bindActionCreators({ fetchMovies, sortAlphabetical }, dispatch);
 
 export default connect(
   mapStateToProps,
