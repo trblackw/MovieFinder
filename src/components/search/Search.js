@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Suggestions from "./Suggestions";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { searchMovies } from "./search_actions";
 
 class Search extends Component {
   state = {
@@ -12,19 +10,22 @@ class Search extends Component {
   };
 
   handleSearch = () => {
-    const { query } = this.state;
-    const { searchMovies } = this.props;
-    this.setState({ query: this.search.value }, () => {
-      if (query && query.length > 1) {
-        if (query.length % 2 === 0) {
-          searchMovies();
-        }
-      }
+    this.setState({
+      query: this.search.value
     });
   };
+
+  filter = movies => {
+    return movies.filter(movie => {
+      const regex = new RegExp(this.state.query, "gi");
+      return movie.title.match(regex);
+    });
+  };
+
   render() {
-    const { movies } = this.props;
+    const { pages } = this.props;
     const { query } = this.state;
+    const movies = this.filter(pages.flat());
     return (
       <SearchContainer>
         <SearchForm onSubmit={e => e.preventDefault()}>
@@ -47,16 +48,10 @@ Search.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  movies: state.SearchReducer.movies
+  pages: state.MoviesReducer.pages
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ searchMovies }, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Search);
+export default connect(mapStateToProps)(Search);
 
 const SearchContainer = styled.div`
   margin: 0 auto;

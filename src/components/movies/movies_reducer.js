@@ -1,31 +1,22 @@
-import { FETCH_MOVIES, FETCH_MOVIE_DETAILS } from "./movies_actions";
+import { FETCH_MOVIES, ALPHABETIZE_MOVIES } from "./movies_actions";
 
 const initialState = {
-  pages: [],
-  details: []
+  pages: []
 };
 export default function(state = initialState, action) {
-  const { type, pages, details } = action;
+  const { type, pages, alphabetizedMovies } = action;
   switch (type) {
     case FETCH_MOVIES:
       return {
         ...state,
         pages
       };
-   //  case FETCH_MOVIE_DETAILS:
-   //    return {
-   //      ...state,
-   //      details
-   //    };
+    case ALPHABETIZE_MOVIES:
+      return {
+        ...state,
+        pages: alphabetizedMovies
+      };
     default:
       return state;
   }
-  //   if (type === FETCH_MOVIES) {
-  //     return { ...state, pages };
-  //   }
-  //   if (type === FETCH_MOVIE_DETAILS) {
-  //     return { ...state, details };
-  //   }
-  //   return state;
-};
-
+}

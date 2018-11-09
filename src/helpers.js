@@ -6,3 +6,13 @@ export const formatRuntime = time => {
   let minutes = time / 60;
   return `${hours} hours ${((minutes - hours) * 60).toFixed(0)} minutes`;
 };
+
+export const chunk = (arr, size) => {
+  let chunked = [];
+  let i = 0;
+  while (i < arr.length) {
+    chunked.push(arr.slice(i, i + size));
+    i += size;
+  }
+  return chunked;
+};
