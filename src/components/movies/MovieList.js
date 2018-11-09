@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Movie from "./Movie";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { fetchMovies, sortAlphabetical } from "./movies_actions";
+import { fetchMovies } from "./movies_actions";
 
 class MovieList extends Component {
   state = {
@@ -24,25 +24,37 @@ class MovieList extends Component {
   }
 
   render() {
-    const { pages, sortAlphabetical } = this.props;
+    const [page1, page2, page3] = this.props.pages;
+    const { pages } = this.props;
     const { activePage } = this.state;
     return (
       <Fragment>
         <Pages>
-          {pages.map((page, i) => (
-            <li key={page[i].id}>
-              <button
-                onClick={() => this.changePage(i)}
-                className={i === activePage ? "active" : "page"}
-              >
-                Page {i + 1}
-              </button>
-            </li>
-          ))}
+          <li>
+            <button
+              onClick={() => this.changePage(pages.indexOf(page1))}
+              className="page"
+            >
+              Page 1
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => this.changePage(pages.indexOf(page2))}
+              className="page"
+            >
+              Page 2
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => this.changePage(pages.indexOf(page3))}
+              className="page"
+            >
+              Page 3
+            </button>
+          </li>
         </Pages>
-        <Sorters>
-          <button onClick={() => sortAlphabetical(pages)}>click</button>
-        </Sorters>
         <MovieGrid>
           {pages[activePage] ? (
             this.mapMovieData(pages[activePage])
@@ -65,7 +77,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ fetchMovies, sortAlphabetical }, dispatch);
+  bindActionCreators({ fetchMovies }, dispatch);
 
 export default connect(
   mapStateToProps,
@@ -88,13 +100,6 @@ const Pages = styled.ul`
   width: auto;
   margin: 0 1.6em;
 
-  button.active {
-    border: 1px solid hsl(0, 0%, 13%);
-    color: hsl(0, 0%, 13%);
-    background: hsl(196, 82%, 60%);
-    border-radius: 4px;
-    padding: 0.3em;
-  }
   button.page {
     border-radius: 4px;
     border: 1px solid hsl(196, 82%, 60%);
@@ -120,12 +125,4 @@ const Pages = styled.ul`
     color: hsl(196, 82%, 60%);
     cursor: pointer;
   }
-`;
-
-const Sorters = styled.div`
-  border: 1px solid red;
-  margin: 1.5em auto;
-  padding: 1em;
-  min-height: 50px;
-  min-width: 100px;
 `;

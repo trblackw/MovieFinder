@@ -1,16 +1,16 @@
-import { FETCH_GENRES } from "./genre_actions";
+import { FETCH_SEARCH } from "./search_actions";
 
 const initialState = {
-  genres: []
+  movies: [],
 };
 
 export default function(state = initialState, action) {
-  const { type, genres } = action;
+  const { movies, type } = action;
   switch (type) {
-    case FETCH_GENRES:
+    case FETCH_SEARCH:
       return {
         ...state,
-        genres
+        movies
       };
     default:
       return state;

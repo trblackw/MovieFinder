@@ -1,9 +1,12 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { Poster } from "./Movie";
 import Overdrive from "react-overdrive";
 import PropTypes from "prop-types";
 import { formatBudget, formatRuntime } from "../../helpers";
+// import { bindActionCreators } from "redux";
+// import { connect } from "react-redux";
+// import { fetchMovieDetails } from "./movies_actions";
 
 const API_KEY = process.env.API_KEY;
 
@@ -16,6 +19,7 @@ class MovieDetail extends Component {
 
   async componentDidMount() {
     const id = this.props.match.params.id;
+    console.log(id);
     try {
       const movieRes = await fetch(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
@@ -33,31 +37,26 @@ class MovieDetail extends Component {
     } catch (error) {
       console.error(error);
     }
+    //  console.log("mounting!");
+    //  const { fetchMovieDetails } = this.props;
+    //  const { id } = this.props.match.params;
+    //  fetchMovieDetails(id);
   }
 
   render() {
     const POSTER_PATH = "http://image.tmdb.org/t/p/w185";
     const BACKDROP_PATH = "http://image.tmdb.org/t/p/w1280";
-    const LOGO_PATH = "https://image.tmdb.org/t/p/w154/";
 
     const { movie, genres, reviews } = this.state;
+    console.log(movie);
     return (
-      <Fragment>
-        <BackdropContainer
-          backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}
-        />
+      <DetailWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
         <DetailInfo>
           <Overdrive id={String(movie.id)}>
-            <Poster
-              src={`${POSTER_PATH}${movie.poster_path}`}
-              alt="poster"
-              style={{ boxShadow: "0 5px 30px black" }}
-            />
+            <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt="poster" />
           </Overdrive>
-
           <div id="info">
             <h1>{movie.title}</h1>
-
             <div id="infoAttr">
               <p className="first">{movie.release_date}</p>
               <p>
@@ -68,26 +67,14 @@ class MovieDetail extends Component {
 
               {movie.runtime !== null && <p>{formatRuntime(movie.runtime)}</p>}
             </div>
-
             <GenreList>
               {genres.map(item => (
-                <li key={item.id * Math.random()}>{item.name}</li>
+                <li key={item.id}>{item.name}</li>
               ))}
             </GenreList>
-          </div>
-          <Description>
             <p>{movie.overview}</p>
-          </Description>
+          </div>
         </DetailInfo>
-        {Array.isArray(movie.production_companies) && (
-          <Logos>
-            {movie.production_companies.map(company => (
-              <div key={company.id}>
-                <img src={`${LOGO_PATH}${company.logo_path}`} alt="" />
-              </div>
-            ))}
-          </Logos>
-        )}
         {reviews.length && (
           <ReviewSection>
             <h1>Reviews</h1>
@@ -101,7 +88,7 @@ class MovieDetail extends Component {
             ))}
           </ReviewSection>
         )}
-      </Fragment>
+      </DetailWrapper>
     );
   }
 }
@@ -112,26 +99,37 @@ MovieDetail.propTypes = {
 
 export default MovieDetail;
 
-const BackdropContainer = styled.div`
+// const mapStateToProps = state => ({
+//   details: state.MoviesReducer.details
+// });
+
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators({ fetchMovieDetails }, dispatch);
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(MovieDetail);
+
+const DetailWrapper = styled.div`
   position: relative;
   padding-top: 60vh;
   background: url(${props => props.backdrop}) no-repeat;
   background-position: relative;
   object-fit: cover;
   justify-content: center;
-  opacity: 0.7;
 `;
 
 const DetailInfo = styled.div`
-  background: hsl(0, 0%, 93%);
+  background: rgb(245, 245, 245, 0.7);
   text-align: left;
+  line-height: 1.9em;
   padding: 2rem 10%;
   display: flex;
+  margin-top: 1.9em;
   font-size: 1.2em;
   div#info {
     margin-left: 20px;
-    width: 100%;
-    height: 180px;
   }
   div#infoAttr {
     display: flex;
@@ -139,9 +137,8 @@ const DetailInfo = styled.div`
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: center;
-    margin: 0.5em auto 1em 0;
+    margin: 1em auto 1em 0;
     color: hsl(0, 100%, 59%);
-    font-size: 0.7em;
   }
   div#infoAttr > p:not(.first) {
     display: inline-block;
@@ -197,32 +194,5 @@ const ReviewSection = styled.div`
   #review {
     text-indent: 0.7em;
     font-family: "Open sans", sans-serif;
-  }
-`;
-
-const Description = styled.div`
-  margin: 1em;
-  padding: 1.2em;
-  text-align: left;
-  width: 100%;
-  position: absolute;
-  left: -2%;
-  top: 30%;
-  color: whitesmoke;
-  text-shadow: 1px 1px black;
-`;
-
-const Logos = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin: 3em auto;
-  position: absolute;
-  width: auto;
-  bottom: -39%;
-  left: 28%;
-
-  div {
-    margin-left: 0.6em;
   }
 `;

@@ -9,7 +9,6 @@ import GenreSelection from "./components/genres/GenreSelection";
 import TrendingSelection from "./components/trending/TrendingSelection";
 import Search from "./components/search/Search";
 import PeopleList from "./components/people/PeopleList";
-import MoviesByGenre from "./components/genres/MoviesByGenre";
 import { Provider } from "react-redux";
 import configureStore from "./store";
 
@@ -19,12 +18,11 @@ const App = () => (
       <Nav />
       <Switch>
         <Route exact path="/" component={MovieList} />
-        <Route exact path="/genres" component={GenreSelection} />
-        <Route path="/genres/:genreId" component={MoviesByGenre} />
+        <Route path="/genres" component={GenreSelection} />
         <Route path="/people" component={PeopleList} />
         <Route path="/trending" component={TrendingSelection} />
         <Route path="/search" component={Search} />
-        <Route exact path="/:id" component={MovieDetail} />
+        <Route path="/:id" component={MovieDetail} />
       </Switch>
     </Fragment>
   </Router>
