@@ -38,7 +38,7 @@ class MovieDetail extends Component {
   render() {
     const POSTER_PATH = "http://image.tmdb.org/t/p/w185";
     const BACKDROP_PATH = "http://image.tmdb.org/t/p/w1280";
-    const LOGO_PATH = "https://image.tmdb.org/t/p/w154/";
+    const LOGO_PATH = "https://image.tmdb.org/t/p/w92/";
 
     const { movie, genres, reviews } = this.state;
     return (
@@ -47,6 +47,60 @@ class MovieDetail extends Component {
           backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}
         />
         <DetailInfo>
+          <Overdrive id={String(movie.id)}>
+            <Poster
+              src={`${POSTER_PATH}${movie.poster_path}`}
+              alt="poster"
+              style={{ boxShadow: "0 5px 30px black" }}
+            />
+          </Overdrive>
+          <div id="info">
+            <h1>{movie.title}</h1>
+            <div id="infoAttr">
+              <p className="first">{movie.release_date}</p>
+              <p>
+                {movie.vote_average}
+                /10
+              </p>
+              {movie.budget && <p>Budget: ${formatBudget(movie.budget)}</p>}
+
+              {movie.runtime !== null && <p>{formatRuntime(movie.runtime)}</p>}
+            </div>
+            <GenreList>
+              {genres.map(item => (
+                <li key={item.id * Math.random()}>{item.name}</li>
+              ))}
+            </GenreList>
+          </div>
+        </DetailInfo>
+
+        <Description>
+          <p>{movie.overview}</p>
+        </Description>
+        {reviews.length && (
+          <ReviewSection>
+            <h1>Reviews</h1>
+            {reviews.map(rev => (
+              <div key={rev.id}>
+                <h4>{rev.author}</h4>
+                <p id="review">
+                  <em>{`"${rev.content}"`}</em>
+                </p>
+              </div>
+            ))}
+          </ReviewSection>
+        )}
+        {/* {Array.isArray(movie.production_companies) && (
+          <Logos>
+            {movie.production_companies.map(company => (
+              <div key={company.id}>
+                <img src={`${LOGO_PATH}${company.logo_path}`} alt="" />
+              </div>
+            ))}
+          </Logos>
+        )} */}
+
+        {/* <DetailInfo>
           <Overdrive id={String(movie.id)}>
             <Poster
               src={`${POSTER_PATH}${movie.poster_path}`}
@@ -100,7 +154,7 @@ class MovieDetail extends Component {
               </div>
             ))}
           </ReviewSection>
-        )}
+        )} */}
       </Fragment>
     );
   }
@@ -114,19 +168,20 @@ export default MovieDetail;
 
 const BackdropContainer = styled.div`
   position: relative;
-  padding-top: 60vh;
+  padding-top: 70vh;
   background: url(${props => props.backdrop}) no-repeat;
   background-position: relative;
   object-fit: cover;
   justify-content: center;
-  opacity: 0.7;
+  opacity: 0.8;
 `;
 
 const DetailInfo = styled.div`
   background: hsl(0, 0%, 93%);
   text-align: left;
-  padding: 2rem 10%;
+  padding: 1.5em 1em 0 1em;
   display: flex;
+  /* align-items: center; */
   font-size: 1.2em;
   div#info {
     margin-left: 20px;
@@ -201,14 +256,15 @@ const ReviewSection = styled.div`
 `;
 
 const Description = styled.div`
-  margin: 1em;
-  padding: 1.2em;
+  margin: 0 auto;
+  padding: 1.3em;
   text-align: left;
   width: 100%;
-  position: absolute;
+  /* position: absolute;
   left: -2%;
-  top: 30%;
+  top: 30%; */
   color: whitesmoke;
+  background: black;
   text-shadow: 1px 1px black;
 `;
 
