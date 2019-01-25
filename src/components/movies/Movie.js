@@ -38,7 +38,7 @@ Movie.propTypes = {
 export default Movie;
 
 export const Poster = styled.img`
-  box-shadow: 0 0 30px white;
+  box-shadow: 3px 4px 20px whitesmoke;
   &:hover {
     transform: scale(1.06);
     transition-duration: 300ms;
